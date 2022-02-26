@@ -1,0 +1,16 @@
+{% extends "blog/layout.html" %}
+{% block content %}
+<body>
+    <h1>Example Blog.</h1>
+    
+    <div class="contianer">
+        <form class="container", action="{% url 'blog:index' %}", method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit">
+            <a href="{% url 'blog:home' %}">Go to home page</a>
+        </form>
+    </div>
+    
+</body>
+{% endblock content %}    

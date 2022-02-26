@@ -1,0 +1,17 @@
+{% extends "blog/layout.html" %}
+{% block content %}
+<body>
+    <h1>home page</h1>
+    <div class="container">
+        <ul>
+            {% for test in testlist %}
+                <li>{{ test }}</li>
+                {% empty %}
+                <li>No Tasks.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'blog:index' %}">Go to index page</a>
+    </div>
+   
+</body>
+{% endblock content %}    
