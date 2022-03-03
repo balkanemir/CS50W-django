@@ -1,3 +1,4 @@
+from .models import Flight
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django import forms
@@ -22,8 +23,6 @@ def index(request):
         "form": TestForm()
     })
 
-
-
 def home(request):
     if "testlist" not in request.session:
         request.session["testlist"] = []
@@ -31,3 +30,13 @@ def home(request):
         "testlist": request.session["testlist"]
     })
 
+def flights(request):
+    return render(request, "blog/flights.html", {
+        "flights": Flight.objects.all()
+        })
+
+def flight(request, flight_id):
+    flight = Flight.objects.get(id=flight_id)
+    return render(request, "blog/flight.html", {
+        "flight": flight
+        })        
