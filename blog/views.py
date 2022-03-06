@@ -1,8 +1,7 @@
-from .models import Flight
+from .models import Flight, Passenger
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django import forms
-from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 class TestForm(forms.Form):
@@ -38,5 +37,16 @@ def flights(request):
 def flight(request, flight_id):
     flight = Flight.objects.get(id=flight_id)
     return render(request, "blog/flight.html", {
-        "flight": flight
+        "flight": flight,
+        "passengers": flight.passengers.all(),
+        "non_passengers": Passenger.objects.exclude(flights=flight).all()
         })        
+
+
+
+def book(request, flight_id):
+    if request.method == "POST":
+        flight = Flight.objects.get(pk=flight_id)
+        passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
+        passenger.flight.add(flight)
+        return HttpResponseRedirect(reverse("blog:flight", args=(flight.id)))
